@@ -1,0 +1,1 @@
+E:\vs2012\Weiz.Redis\Weiz.Redis\RedisTest\bin\Debug\RedisTest.exe.config
