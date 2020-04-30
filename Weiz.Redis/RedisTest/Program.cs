@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ConsoleRedisTest;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,18 +13,33 @@ namespace Weiz.Redis.RedisTest
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Redis写入缓存：zhong");
-
-            RedisCacheHelper.Add<StudentModel>("zhong", new StudentModel (){id=1,name="程庆"}, DateTime.Now.AddSeconds(10));
-
             
 
-            for (int i = 0; i < 1000; i++)
+            new RedisTool().Add<StudentModel>("a", new StudentModel() { id = 1, name = "程庆" },-1);
+
+
+
+            List<StudentModel> listStudent = new List<StudentModel>();
+            for (int i = 0; i < 5; i++)
             {
-                Thread.Sleep(1000);
-                var  str3 = RedisCacheHelper.Get<StudentModel>("zhong");
-                Console.WriteLine(RedisCacheHelper.Exists("zhong")+"   "+ str3?.id +"   "+str3?.name);
+                StudentModel student = new StudentModel();
+                student.id = i;
+                student.name = "程庆" + i;
+                listStudent.Add(student);
             }
+            new RedisTool().AddList<StudentModel>("list", listStudent, -1);
+
+
+            StudentModel student5 = new StudentModel();
+            student5.id = 5;
+            student5.name = "程庆" +5;
+
+            new RedisTool().AddEntityToList<StudentModel>("list", student5, -1);
+
+
+
+            new RedisTool().Set<StudentModel>("set", student5);
+
 
             Console.ReadKey();
         }
